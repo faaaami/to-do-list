@@ -40,6 +40,9 @@ const ToDoList = () => {
     );
   };
 
+  // ✅ simple responsive helper
+  const isMobile = window.innerWidth <= 480;
+
   return (
     <div
       style={{
@@ -49,14 +52,15 @@ const ToDoList = () => {
         justifyContent: "center",
         alignItems: "center",
         fontFamily: "Arial, sans-serif",
-        padding: "20px",
+        padding: isMobile ? "12px" : "20px",
       }}
     >
       <div
         style={{
-          width: "420px",
+          width: "100%",         // ✅ mobile full width
+          maxWidth: "420px",      // ✅ desktop same size
           backgroundColor: "#fff",
-          padding: "25px",
+          padding: isMobile ? "18px" : "25px",
           borderRadius: "12px",
           boxShadow: "0 8px 20px rgba(0,0,0,0.1)",
         }}
@@ -66,13 +70,21 @@ const ToDoList = () => {
             marginBottom: "15px",
             textAlign: "center",
             color: "#222",
+            fontSize: isMobile ? "20px" : "24px",
           }}
         >
           My To Do List
         </h2>
 
         {/* Input Row */}
-        <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
+        <div
+          style={{
+            display: "flex",
+            gap: "10px",
+            marginBottom: "20px",
+            flexWrap: "wrap", // ✅ if small screen, button goes below
+          }}
+        >
           <input
             type="text"
             placeholder="Enter The Task"
@@ -80,16 +92,19 @@ const ToDoList = () => {
             onChange={(e) => setInput(e.target.value)}
             style={{
               flex: 1,
+              minWidth: isMobile ? "100%" : "0px", // ✅ full width on mobile
               padding: "10px",
               borderRadius: "6px",
               border: "1px solid #ccc",
               outline: "none",
+              fontSize: "14px",
             }}
           />
 
           <button
             onClick={add}
             style={{
+              width: isMobile ? "100%" : "auto", // ✅ full width on mobile
               padding: "10px 16px",
               borderRadius: "6px",
               border: "none",
@@ -97,6 +112,7 @@ const ToDoList = () => {
               color: "#fff",
               cursor: "pointer",
               fontWeight: "bold",
+              fontSize: "14px",
             }}
           >
             Add
@@ -135,10 +151,11 @@ const ToDoList = () => {
                   style={{
                     flex: 1,
                     margin: 0,
-                    fontSize: "15px",
+                    fontSize: isMobile ? "14px" : "15px",
                     color: task.done ? "#999" : "#333",
                     textDecoration: task.done ? "line-through" : "none",
                     fontWeight: task.done ? "normal" : "600",
+                    wordBreak: "break-word", // ✅ long text won’t overflow
                   }}
                 >
                   {task.text}
@@ -155,6 +172,8 @@ const ToDoList = () => {
                     color: "#ff4d4d",
                     cursor: "pointer",
                     fontWeight: "bold",
+                    fontSize: "12px",
+                    whiteSpace: "nowrap",
                   }}
                 >
                   Delete
